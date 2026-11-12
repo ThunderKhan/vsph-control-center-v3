@@ -14,7 +14,7 @@ This is an independently versioned technology port of [VSPH Control Center](http
 - PostgreSQL + Supabase Auth remain the data and identity foundations
 - Deployment target: Hostinger VPS + Docker Compose + Caddy behind Cloudflare
 
-**Current development status:** There is a scaffold, an intentionally blank frontend route, and a Fastify readiness endpoint that always fails closed with HTTP 503. This is deliberate: none of the live identity, database, or business modules is represented as complete. Do not publish this as an application. The legacy visual source styles are preserved in `docs/reference/styles/`, but not imported until the original font/assets and screenshots have been recovered and compared.
+**Current development status:** The Next.js login interface has been ported in source with original CSS and exact copied Inter font. Original login screenshots are archived. The Fastify readiness and login endpoints remain fail-closed with HTTP 503; the browser UI is not connected to working authentication. Security primitives and identity/session/entitlement logic are under review, not deployed. Do not publish this as an application. Visual parity is not yet certified.
 
 ## Source baseline
 
@@ -30,6 +30,7 @@ Use Node.js 24 and npm. A reviewed `package-lock.json` is **not yet committed**,
 
 ```sh
 npm install
+npm run test:source-parity
 npm run typecheck
 npm run test
 npm run dev:api
@@ -37,7 +38,7 @@ npm run dev:api
 npm run dev:web
 ```
 
-The v3 frontend currently has no migrated product pages. The Fastify API at `http://localhost:4000/api/health` must return HTTP 503 until a real, safely verified database/identity dependency check is implemented.
+The v3 frontend has a source-level login port but no migrated authenticated dashboard or other business page. The Fastify API at `http://localhost:4000/api/health` must return HTTP 503 until a real, safely verified database/identity dependency check is implemented.
 
 **Do not run `prisma migrate dev`, `prisma db push`, `prisma migrate deploy`, or production `prisma db pull` against the existing Supabase instance.** Introspection must first be performed against an approved, restored, read-only staging replica, and schema/migration ownership agreed with the source SQL migration manifest.
 
