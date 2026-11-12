@@ -18,3 +18,11 @@ This change ports:
 Before wiring the authenticator into login, make database access safe through a reviewed restored staging schema, preserve session hash/cookie behavior and account-disable checks, verify CSRF origin, rate limits, tenant authorization and temporary-password redemption. Do not turn a successfully verified password into an active session without these checks.
 
 The repository remains public; no credentials or production data were touched. Dependencies cannot currently be installed in this environment; the added TypeScript tests must be run before this module is accepted.
+
+## Additional authorization logic (source-only)
+
+- `portal-session.ts` and tests preserve the original hashed cookie lookup, expiry, same-user profile join, active account gate and 401 denial messages. Store adapter is deliberately not implemented against production.
+- `entitlements.ts` and tests preserve the original conjunctive product access policy: active organization + subscription + grant + membership + app role, with current time-window checks. Platform ownership is never implicit customer/product access.
+- These functions use injection rather than querying a database, so the business rules can be tested with synthetic inputs without modifying Supabase.
+
+Pending: authoritative Prisma store implementations with complete matching schema/SQL row-level protections, session create/delete/revocation, real account/cookie integration, and all privileged role combinations in staging.
