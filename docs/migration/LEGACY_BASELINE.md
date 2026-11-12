@@ -34,8 +34,8 @@ The source is an Express 5 + vanilla HTML/CSS/JavaScript Node.js service using S
 
 - Exact `DESIGN.md` copied from frozen source into this repository.
 - Exact `public/auth.css` and `public/crm-auth.css` copied into `docs/reference/styles/`.
-- Legacy screenshots: `docs/screenshots/login-desktop.jpg` and `login-mobile.jpg` remain in the original Git revision.
-- Exact Inter font binary and any other media are not yet copied; copying assets and screenshot pixel comparisons remain a gate.
+- Original legacy login screenshots now also retained in `docs/reference/screenshots/` with matching GitHub blob SHA-1 hashes.
+- Exact Inter font binary is now copied to `frontend/public/fonts/`, with its SIL OFL license preserved. Matching source blob hash confirmed. Pixel-level screenshot comparisons remain a gate.
 - No v3 page is visually accepted yet.
 
 Never treat the legacy documentation's fixture acceptance as proof of real hosted Supabase acceptance.
