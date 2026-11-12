@@ -8,6 +8,8 @@ export type ProviderUser = {
   id: string;
   email?: string | null;
   factors?: Array<{ status: string }>;
+  app_metadata?: Record<string, unknown>;
+  email_confirmed_at?: string | null;
 };
 export type ProviderFactor = {
   id: string;

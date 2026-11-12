@@ -103,6 +103,31 @@ describe('Supabase identity verifier parity', () => {
     expect(provider.signOutLocal).toHaveBeenCalledOnce();
   });
 
+  it('requires a chosen TOTP factor when more than one is enrolled', async () => {
+    const provider = fakeProvider({
+      getAssurance: vi.fn(async () => ({
+        data: { currentLevel: 'aal1', nextLevel: 'aal2' }, error: null,
+      })),
+      listFactors: vi.fn(async () => ({ data: [
+        { id: oneId, name: 'Primary', type: 'totp', status: 'verified' },
+        { id: twoId, name: 'Backup', type: 'totp', status: 'verified' },
+      ], error: null })),
+    });
+    await expect(verifyIdentity({ ...credentials, totpCode: '123456' }, () => provider))
+      .rejects.toMatchObject({ code: 'MFA_REQUIRED', status: 401 });
+    expect(provider.verifyFactor).not.toHaveBeenCalled();
+    expect(provider.signOutLocal).toHaveBeenCalledOnce();
+  });
+
+  it('fails closed if the provider returns a missing verified user', async () => {
+    const provider = fakeProvider({
+      getUser: vi.fn(async () => ({ data: null, error: null })),
+    });
+    await expect(verifyIdentity(credentials, () => provider))
+      .rejects.toMatchObject({ code: 'AUTH_UNAVAILABLE', status: 503 });
+    expect(provider.signOutLocal).toHaveBeenCalledOnce();
+  });
+
   it('requires post-TOTP aal2 and matching identity', async () => {
     const provider = fakeProvider({
       getAssurance: vi.fn()
