@@ -20,3 +20,9 @@ Security constraints:
 - The isolated Vitest tests are written but cannot be claimed passing until dependencies are installed and `npm run test` is executed.
 
 Next: implement read-only session/profile store against a verified isolated staging restore, then complete Fastify HTTP routes and original application-specific login/Outreach SSO paths.
+
+## Fastify HTTP adapter (isolated synthetic tests only)
+
+`login-http.ts` implements original `POST /api/auth/login` response codes, MFA error bodies, cookie attributes and the no-cookie-on-failure rule. `buildApp({ login: testDependencies })` lets unit tests use a synthetic store, while the actual `backend/src/server.ts` calls `buildApp()` without adapters and **continues returning 503**.
+
+Live HTTP use additionally requires the original portal-session store schema, staging approval, exact Origin/reverse-proxy policy, rate-limit validation and release approval. The HTTP tests are written but not yet executed in an installed dependency environment.
