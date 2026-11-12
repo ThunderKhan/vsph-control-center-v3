@@ -1,0 +1,8 @@
+/* Bundled, unmodified Inter; source and SIL OFL license: /fonts/README.md. */
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-5a8d3e72.woff2') format('woff2');
+}

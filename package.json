@@ -19,7 +19,8 @@
     "build": "npm run build --workspaces --if-present",
     "lint": "eslint .",
     "format:check": "prettier --check .",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run build"
+    "check": "npm run test:source-parity && npm run typecheck && npm run lint && npm run test && npm run build",
+    "test:source-parity": "node --test tests/source-auth-parity.test.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
