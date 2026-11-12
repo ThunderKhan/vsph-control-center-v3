@@ -79,7 +79,7 @@ export function AuthPage({ appCode }: AuthPageProps) {
     // must be ported to Fastify before application login goes live.
     async function loadContext() {
       try {
-        const response = await fetch('/api/apps/' + encodeURIComponent(appCode!) + '/contexts', {
+        const response = await fetch('/api/apps/' + encodeURIComponent((appCode ?? '')) + '/contexts', {
           credentials: 'same-origin',
         });
         if (!active) return;
@@ -98,7 +98,7 @@ export function AuthPage({ appCode }: AuthPageProps) {
         }
         if (!active) return;
         setOrganizations(data.organizations);
-        setOrganizationId(data.organizations[0]!.id);
+        setOrganizationId((data.organizations[0]?.id ?? ''));
         setApplicationName(data.application.name);
         setEmail(data.email);
         setContextReady(true);
@@ -126,7 +126,7 @@ export function AuthPage({ appCode }: AuthPageProps) {
         ...(totpCode ? { totpCode, totpFactorId } : {}),
       };
       if (isApplicationLogin) {
-        payload.app = appCode!;
+        payload.app = (appCode ?? '');
         payload.organizationId = organizationId;
       }
       const data = await requestLogin(
@@ -136,7 +136,7 @@ export function AuthPage({ appCode }: AuthPageProps) {
       if (isApplicationLogin) {
         // Back-end response must be same-origin and validated against the
         // permitted application. Original server returns /apps/CODE/home.
-        const expected = '/apps/' + appCode!.toLowerCase() + '/home';
+        const expected = '/apps/' + (appCode ?? '').toLowerCase() + '/home';
         if (data.redirect !== expected) throw new Error('Unexpected application destination.');
         window.location.assign(data.redirect);
       } else {
