@@ -4,9 +4,9 @@ No entry is accepted or done until source, new path, original screenshot(s), con
 
 | Legacy source | v3 destination | Status |
 | --- | --- | --- |
-| `views/auth.html`, `public/auth*.js`, `public/auth.css`, `public/crm-auth.css` | `frontend/src/app/login/` and `frontend/src/features/auth/` | Not ported |
+| `views/auth.html`, `public/auth*.js`, `public/auth.css`, `public/crm-auth.css` | `frontend/src/app/login/`, `frontend/src/app/apps/[app]/login/`, `frontend/src/features/auth/` | React UI port in review; **not accepted** (font, screenshots, server auth pending) |
 | `public/portal-navigation.*`, `public/dashboard.*` | `frontend/src/components/`, `frontend/src/app/dashboard/` | Not ported |
-| `routes/auth.js`, `security.js` | `backend/src/modules/auth/` | Not ported |
+| `routes/auth.js`, `security.js` | `backend/src/modules/auth/` | Not ported; scaffold rejects login |
 | `routes/employees.js`, `services/employee-*.js` | `backend/src/modules/employees/` and frontend employees | Not ported |
 | `routes/hrms.js`, `routes/calendar.js` | `backend/src/modules/hrms/` and frontend HRMS | Not ported |
 | `routes/projects.js`, `routes/delivery.js` | `backend/src/modules/projects/` and frontend projects | Not ported |
