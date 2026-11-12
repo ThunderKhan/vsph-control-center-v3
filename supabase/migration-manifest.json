@@ -1,0 +1,362 @@
+{
+  "format": 1,
+  "bootstrap": {
+    "path": "supabase/schema.sql",
+    "sha256": "ca1d3e44e506d9206a1bc5829924e4ca8f080d199d77517546d4751289d6fcf9"
+  },
+  "migrations": [
+    {
+      "path": "supabase/migrations/20261030_music_sso_launch_codes.sql",
+      "sha256": "dd3892ac88a2bd5406fb6d6a9b91259363fe55dd82cbd58cde86e841ed5e2441",
+      "version": "20261030",
+      "name": "music_sso_launch_codes",
+      "requires": []
+    },
+    {
+      "path": "supabase/migrations/20261030_music_staff_musician_roles.sql",
+      "sha256": "8cb84e93ef47f2b85f98327d6f961c56ef21a96268d709aeaccc6bf405f1c71a",
+      "version": "20261030",
+      "name": "music_staff_musician_roles",
+      "requires": [
+        "supabase/migrations/20261030_music_sso_launch_codes.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031000100_atomic_profile_status.sql",
+      "sha256": "a69bcdc9bc2022f5c34e0802544e14b8c5c2c223728b9711d4aa805a395eb629",
+      "version": "20261031000100",
+      "name": "atomic_profile_status",
+      "requires": [
+        "supabase/migrations/20261030_music_staff_musician_roles.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031000200_durable_provisioning.sql",
+      "sha256": "a6ef85272e00b3f5cb39ad0baa52c2d18050cbc1071627655811dffad1beb23a",
+      "version": "20261031000200",
+      "name": "durable_provisioning",
+      "requires": [
+        "supabase/migrations/20261031000100_atomic_profile_status.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031000300_projects.sql",
+      "sha256": "2fd68330abdde9b8c27811165b727b887480545713c3851354d4d5d989bd60b2",
+      "version": "20261031000300",
+      "name": "projects",
+      "requires": [
+        "supabase/migrations/20261031000200_durable_provisioning.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031000400_invitation_disable_revocation.sql",
+      "sha256": "66280039fd0c293a6f9e708304ee8d4ba011c053b34e368fbe1e1b9e41b271c5",
+      "version": "20261031000400",
+      "name": "invitation_disable_revocation",
+      "requires": [
+        "supabase/migrations/20261031000300_projects.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031000500_project_delivery.sql",
+      "sha256": "ca1f8474fc63ddbd203c6e4adf68206ec656bf986f67fdf70b0ace949e777167",
+      "version": "20261031000500",
+      "name": "project_delivery",
+      "requires": [
+        "supabase/migrations/20261031000400_invitation_disable_revocation.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031000600_project_notifications.sql",
+      "sha256": "8a9181a298eee0d44e08c5786bc8760cc5877c8db491373a92f9f79db8fd6b94",
+      "version": "20261031000600",
+      "name": "project_notifications",
+      "requires": [
+        "supabase/migrations/20261031000500_project_delivery.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031000700_self_service_sessions.sql",
+      "sha256": "190a3b888e08d622e391e159505db4754bda0cf33e037c58a237c6a9a1aff8e5",
+      "version": "20261031000700",
+      "name": "self_service_sessions",
+      "requires": [
+        "supabase/migrations/20261031000600_project_notifications.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261031065919_overdue_milestone_notifications.sql",
+      "sha256": "1e5d665c5dd328674a1b04771a444da17657d060dec174741fce483a7f873813",
+      "version": "20261031065919",
+      "name": "overdue_milestone_notifications",
+      "requires": [
+        "supabase/migrations/20261031000700_self_service_sessions.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261101052745_member_governance.sql",
+      "sha256": "74e6b9d71fd335a7f3a8add96892ca03edd3637ddb45aae9d1313e947ba6d9fd",
+      "version": "20261101052745",
+      "name": "member_governance",
+      "requires": [
+        "supabase/migrations/20261031065919_overdue_milestone_notifications.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261101053314_product_registry.sql",
+      "sha256": "4aaa63e6366ec3803007bba0aadcff3ff88f6d5f987ee01107817cf19be6f80e",
+      "version": "20261101053314",
+      "name": "product_registry",
+      "requires": [
+        "supabase/migrations/20261101052745_member_governance.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261101054139_customer_lifecycle.sql",
+      "sha256": "2c3cdab61b47c5df91119ef623318108d43539cdf232c8cd3980d90a520c02ab",
+      "version": "20261101054139",
+      "name": "customer_lifecycle",
+      "requires": [
+        "supabase/migrations/20261101053314_product_registry.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103050509_organization_workspace.sql",
+      "sha256": "be936045d4890072e949007bb56e3e939ccf255de6e459a07336f49bf539ebef",
+      "version": "20261103050509",
+      "name": "organization_workspace",
+      "requires": [
+        "supabase/migrations/20261101054139_customer_lifecycle.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103051256_delegated_organization_invitations.sql",
+      "sha256": "86df0c9fc175205e74f661c47934a54bbfe9a8c486be96d044b24418a734fe1c",
+      "version": "20261103051256",
+      "name": "delegated_organization_invitations",
+      "requires": [
+        "supabase/migrations/20261103050509_organization_workspace.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103053129_delegated_invitation_profile_locks.sql",
+      "sha256": "4784f486e000b0073f3a9e6296bd0cd0d768ee9e45bba5c27f26cd942b776083",
+      "version": "20261103053129",
+      "name": "delegated_invitation_profile_locks",
+      "requires": [
+        "supabase/migrations/20261103051256_delegated_organization_invitations.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103062727_organization_owner_transfer.sql",
+      "sha256": "9372ed19405d415a14b4215f34b2f40d2510cae6323d2b5ad81c7165f9fdb942",
+      "version": "20261103062727",
+      "name": "organization_owner_transfer",
+      "requires": [
+        "supabase/migrations/20261103053129_delegated_invitation_profile_locks.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103072229_project_work_search.sql",
+      "sha256": "dfc44ac57217109ae27305f96c4a77a0f0c3750b16861369090bb980431b5b10",
+      "version": "20261103072229",
+      "name": "project_work_search",
+      "requires": [
+        "supabase/migrations/20261103062727_organization_owner_transfer.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103110000_internal_employee_governance.sql",
+      "sha256": "eddacca0f7f18384cf0d122962834dc552d7a87051a8ae7e2ad72b991640737f",
+      "version": "20261103110000",
+      "name": "internal_employee_governance",
+      "requires": [
+        "supabase/migrations/20261103062727_organization_owner_transfer.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103155930_internal_hr_lock_order.sql",
+      "sha256": "dff4d9f3de923161d5de2adc2055a66610cc92d663336f388bca7ce35373b9c1",
+      "version": "20261103155930",
+      "name": "internal_hr_lock_order",
+      "requires": [
+        "supabase/migrations/20261103110000_internal_employee_governance.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103165522_internal_employee_identity_links.sql",
+      "sha256": "4e5ae86c0116d8b7be0cb8a25bd4dee15f381358a94cdaef2fd10a3ff07ce8d4",
+      "version": "20261103165522",
+      "name": "internal_employee_identity_links",
+      "requires": [
+        "supabase/migrations/20261103155930_internal_hr_lock_order.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103170000_finance_ledger.sql",
+      "sha256": "7a399e4b2c95334666eeea8245af540f58f86f4f9c4090ca3c4eae0e2faaf48a",
+      "version": "20261103170000",
+      "name": "finance_ledger",
+      "requires": [
+        "supabase/migrations/20261103110000_internal_employee_governance.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261103171835_finance_exact_snapshot_report.sql",
+      "sha256": "8f968078468f1f08651a7ad95d43f450ba1b9f2ea0cde6bc7cfabee00badd4b0",
+      "version": "20261103171835",
+      "name": "finance_exact_snapshot_report",
+      "requires": [
+        "supabase/migrations/20261103170000_finance_ledger.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261104053000_finance_journal.sql",
+      "sha256": "a885ee0e22aa182de8b54754a7f67b1a45ee9855531d911a5318c43bdcd1663c",
+      "version": "20261104053000",
+      "name": "finance_journal",
+      "requires": [
+        "supabase/migrations/20261103171835_finance_exact_snapshot_report.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261104091848_account_profile_preferences.sql",
+      "sha256": "72fc40240ab37b3d3f11213e1c2fc4f283080fa0bfecb7fdc4b6635bd2d424b3",
+      "version": "20261104091848",
+      "name": "account_profile_preferences",
+      "requires": [
+        "supabase/migrations/20261031000700_self_service_sessions.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261104093317_internal_hrms_self_service.sql",
+      "sha256": "009e6c743f111835ab68285aba1048869cf29a8fdec697fe2058cd3904dd896f",
+      "version": "20261104093317",
+      "name": "internal_hrms_self_service",
+      "requires": [
+        "supabase/migrations/20261103165522_internal_employee_identity_links.sql",
+        "supabase/migrations/20261104091848_account_profile_preferences.sql",
+        "supabase/migrations/20261031065919_overdue_milestone_notifications.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261104153559_owner_dashboard_snapshot.sql",
+      "sha256": "bb6659c28fdd7378693bbc2351e49e618694c1ad835e02a7416971cb7214ebfb",
+      "version": "20261104153559",
+      "name": "owner_dashboard_snapshot",
+      "requires": [
+        "supabase/migrations/20261031000300_projects.sql",
+        "supabase/migrations/20261103110000_internal_employee_governance.sql",
+        "supabase/migrations/20261031000700_self_service_sessions.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261106054740_internal_employee_enrollment.sql",
+      "sha256": "82bac868400957c56c285fb1dde87441db38ad19a0a0348d2e57fd47b3914a65",
+      "version": "20261106054740",
+      "name": "internal_employee_enrollment",
+      "requires": [
+        "supabase/migrations/20261103165522_internal_employee_identity_links.sql",
+        "supabase/migrations/20261031000300_projects.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261106063206_internal_employee_temporary_credentials.sql",
+      "sha256": "f00a1aa0d2df8d4095cf5650829ba2065822bdaf5e6d3f27b46d1a0c1b3394e9",
+      "version": "20261106063206",
+      "name": "internal_employee_temporary_credentials",
+      "requires": [
+        "supabase/migrations/20261106054740_internal_employee_enrollment.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261106142000_employee_removal_audit.sql",
+      "sha256": "e00bf62828997a2e97b80714bdd233da963e824ba6011e5b0036f691a7d58f88",
+      "version": "20261106142000",
+      "name": "employee_removal_audit",
+      "requires": [
+        "supabase/migrations/20261106063206_internal_employee_temporary_credentials.sql",
+        "supabase/migrations/20261103165522_internal_employee_identity_links.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261107010000_internal_work_activity.sql",
+      "sha256": "0e557902f60e7b0a7a8e6387611946d1fd23c16340dbd0d555139db5314fb144",
+      "version": "20261107010000",
+      "name": "internal_work_activity",
+      "requires": [
+        "supabase/migrations/20261104093317_internal_hrms_self_service.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261107101500_internal_calendar.sql",
+      "sha256": "dbcdf21b93481c5c458e1acb0ec811756f90abbb211ea60ad68555c25dd1b892",
+      "version": "20261107101500",
+      "name": "internal_calendar",
+      "requires": [
+        "supabase/migrations/20261104093317_internal_hrms_self_service.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261109140000_project_custom_applications.sql",
+      "sha256": "86287590060620bb2037f024a29cdb7cbc0b9bc65b573bc96b0a4906fc5c169f",
+      "version": "20261109140000",
+      "name": "project_custom_applications",
+      "requires": [
+        "supabase/migrations/20261031000300_projects.sql",
+        "supabase/migrations/20261104093317_internal_hrms_self_service.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261109141500_organization_only_onboarding.sql",
+      "sha256": "82a1238d230de514aec080aad4df9438961d23f617eced17bcc3ae50a70a5c5d",
+      "version": "20261109141500",
+      "name": "organization_only_onboarding",
+      "requires": [
+        "supabase/migrations/20261031000400_invitation_disable_revocation.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261109143000_project_workforce_governance.sql",
+      "sha256": "f6df4fd980f92292043f4db113f70fd3aad789d1259b00f76cbc73c3fa155fba",
+      "version": "20261109143000",
+      "name": "project_workforce_governance",
+      "requires": [
+        "supabase/migrations/20261031000300_projects.sql",
+        "supabase/migrations/20261104093317_internal_hrms_self_service.sql",
+        "supabase/migrations/20261109140000_project_custom_applications.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261109193000_feedback01_04_lifecycle.sql",
+      "sha256": "f08f6871e7be8769891a85df7b039f21df819746d10272ff9ce35063046bdeac",
+      "version": "20261109193000",
+      "name": "feedback01_04_lifecycle",
+      "requires": [
+        "supabase/migrations/20261109143000_project_workforce_governance.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261109203000_project_workspace_v2.sql",
+      "sha256": "dd161bdad8ea4f9958b3a96b563c791981c984f4ae403b6b18ab7ba8e00d8bc7",
+      "version": "20261109203000",
+      "name": "project_workspace_v2",
+      "requires": [
+        "supabase/migrations/20261109143000_project_workforce_governance.sql",
+        "supabase/migrations/20261109193000_feedback01_04_lifecycle.sql"
+      ]
+    },
+    {
+      "path": "supabase/migrations/20261111100000_outreach_internal_sso.sql",
+      "sha256": "609845802482d42e7b7bad194bdc2d0482c186f3a324fca51e0e43d158367c4d",
+      "version": "20261111100000",
+      "name": "outreach_internal_sso",
+      "requires": [
+        "supabase/migrations/20261103165522_internal_employee_identity_links.sql",
+        "supabase/migrations/20261031000700_self_service_sessions.sql",
+        "supabase/migrations/20261101053314_product_registry.sql"
+      ]
+    }
+  ],
+  "note": "Historical Music filenames share version 20261030. Reconcile hosted ledger explicitly; do not silently rename or repair history."
+}
