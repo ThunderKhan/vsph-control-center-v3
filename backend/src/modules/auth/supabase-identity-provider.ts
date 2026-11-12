@@ -33,7 +33,9 @@ export function createSupabaseIdentityProvider(config: {
       data: result.data.user ? {
         id: result.data.user.id,
         email: result.data.user.email ?? null,
-        factors: result.data.user.factors?.map((factor) => ({ status: factor.status })),
+        ...(result.data.user.factors
+          ? { factors: result.data.user.factors.map((factor) => ({ status: factor.status })) }
+          : {}),
       } : null,
       error: errorStatus(result.error),
     };
