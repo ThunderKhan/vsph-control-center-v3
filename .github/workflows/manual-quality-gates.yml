@@ -1,0 +1,78 @@
+name: Manual v3 quality gates
+
+# Explicitly manual to avoid consuming unapproved GitHub Actions minutes.
+# No deployment, production credentials, Supabase DB or write permissions.
+on:
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: 'Also run Chromium Playwright tests (extra runner usage)'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  quality:
+    name: Node 24 — install, source parity, types, tests, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: 'true'
+    steps:
+      - name: Checkout v3 source
+        uses: actions/checkout@v4
+
+      # The lockfile must exist before setup-node's npm cache can use it.
+      - name: Require committed workspace lockfile
+        run: node scripts/verify-lockfile.mjs
+
+      - name: Set up Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Reproducible dependency installation
+        run: npm ci --no-audit
+
+      - name: Source and asset integrity
+        run: npm run test:source-parity
+
+      - name: TypeScript checks
+        run: npm run typecheck
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Backend unit tests
+        run: npm run test
+
+      - name: Build frontend and backend
+        run: npm run build
+
+      - name: Install Chromium only when opted in
+        if: ${{ inputs.browser }}
+        run: npx playwright install --with-deps chromium
+
+      - name: Frontend structural browser tests
+        if: ${{ inputs.browser }}
+        run: npm run test:e2e
+
+      - name: Upload failing browser diagnostics
+        if: ${{ failure() && inputs.browser }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-test-failures
+          path: |
+            frontend/test-results/
+            frontend/playwright-report/
+          if-no-files-found: ignore
+          retention-days: 3
