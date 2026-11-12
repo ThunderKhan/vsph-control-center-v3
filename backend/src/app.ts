@@ -1,9 +1,20 @@
 import Fastify from 'fastify';
 import { installHttpSecurity } from './http-security.js';
 import { registerPortalLoginHttp } from './modules/auth/login-http.js';
+import { registerPortalMeHttp } from './modules/auth/session-http.js';
+import type { PortalSessionStore } from './modules/auth/portal-session.js';
 import type { PortalLoginDependencies } from './modules/auth/portal-login.js';
 
-export function buildApp(options: { login?: PortalLoginDependencies } = {}) {
+export function buildApp(options: {
+  login?: PortalLoginDependencies;
+  sessionStore?: PortalSessionStore;
+} = {}) {
+  // The production boot path must not accidentally enable partial auth.
+  // Once the full session adapter is verified, replace this gate through a
+  // separately reviewed, production-authorized integration.
+  if (process.env.NODE_ENV === 'production' && (options.login || options.sessionStore)) {
+    throw new Error('Partial authentication adapters are not enabled in production.');
+  }
   const app = Fastify({
     logger: { redact: ['req.headers.authorization', 'req.headers.cookie', 'res.headers.set-cookie'] },
   });
@@ -30,6 +41,14 @@ export function buildApp(options: { login?: PortalLoginDependencies } = {}) {
       reply.code(503).send({
         message: 'Migration foundation is not an enabled authentication service.',
       }),
+    );
+  }
+
+  if (options.sessionStore) {
+    registerPortalMeHttp(app, options.sessionStore);
+  } else {
+    app.get('/api/auth/me', async (_request, reply) =>
+      reply.code(503).send({ message: 'Session verification is not configured.' }),
     );
   }
 

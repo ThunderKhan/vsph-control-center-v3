@@ -26,3 +26,9 @@ Next: implement read-only session/profile store against a verified isolated stag
 `login-http.ts` implements original `POST /api/auth/login` response codes, MFA error bodies, cookie attributes and the no-cookie-on-failure rule. `buildApp({ login: testDependencies })` lets unit tests use a synthetic store, while the actual `backend/src/server.ts` calls `buildApp()` without adapters and **continues returning 503**.
 
 Live HTTP use additionally requires the original portal-session store schema, staging approval, exact Origin/reverse-proxy policy, rate-limit validation and release approval. The HTTP tests are written but not yet executed in an installed dependency environment.
+
+## Read-only authenticated-session endpoint
+
+`session-http.ts` also ports `GET /api/auth/me` behind an explicitly supplied session store. It rejects missing, expired, disabled and ambiguous-cookie sessions, and returns only the bounded profile projection used by the original API. Synthetic endpoint tests exercise both accepted and denied states.
+
+**Safety gate:** `buildApp()` in `backend/src/server.ts` passes no adapter; both login and `/api/auth/me` remain 503 by default. Additionally, passing partial adapters while `NODE_ENV=production` throws immediately rather than enabling a partial authentication system. A future fully operational release needs separately reviewed session, logout, revocation, application-context and employee credential integrations, plus authorized staging and acceptance tests.

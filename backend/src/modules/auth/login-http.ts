@@ -9,7 +9,7 @@ import {
  * Cookie names are the reviewed legacy VSPH session cookie names; reject
  * ambiguous duplicate names rather than interpreting the wrong identity.
  */
-function readCookies(cookieHeader: string | undefined): Record<string, string> {
+export function readSessionCookies(cookieHeader: string | undefined): Record<string, string> {
   const result: Record<string, string> = Object.create(null) as Record<string, string>;
   const repeated = new Set<string>();
   if (!cookieHeader) return result;
@@ -64,7 +64,7 @@ export function registerPortalLoginHttp(
   app.post('/api/auth/login', async (request, reply) => {
     try {
       const result = await loginPortal(
-        request.body, readCookies(request.headers.cookie), deps,
+        request.body, readSessionCookies(request.headers.cookie), deps,
       );
       reply.header('Set-Cookie',
         result.cookies.map((instruction) => serializeCookie(instruction, production)));
@@ -78,7 +78,7 @@ export function registerPortalLoginHttp(
         return reply.code(error.status).send({ message: error.message });
       }
       // Never reveal database/session errors or internal provider details.
-      app.log.error({ err: error }, 'Login orchestration unavailable');
+      app.log.error('Login orchestration unavailable; request rejected without session cookie');
       return reply.code(503).send({
         code: 'AUTH_UNAVAILABLE',
         message: 'Identity verification is temporarily unavailable. Try again later.',
