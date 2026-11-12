@@ -26,7 +26,7 @@ This is an independently versioned technology port of [VSPH Control Center](http
 
 ## Development (after installing dependencies)
 
-Use Node.js 24 and npm. A reviewed `package-lock.json` is **not yet committed**, because registry/network package resolution has not been completed. This is a release-blocking setup task, not a reason to use unpinned dependencies in production.
+Use Node.js 24 and npm. A reviewed `package-lock.json` is **not yet committed**, because registry/network package resolution has not been completed. The cross-platform source tests and manual (opt-in) Node 24 CI workflow are prepared; see `docs/operations/BUILD_VERIFICATION.md`. This is a release-blocking setup task, not a reason to use unpinned dependencies in production.
 
 ```sh
 npm install
