@@ -29,15 +29,16 @@ jobs:
       - name: Checkout v3 source
         uses: actions/checkout@v4
 
+      # The lockfile must exist before setup-node's npm cache can use it.
+      - name: Require committed workspace lockfile
+        run: node scripts/verify-lockfile.mjs
+
       - name: Set up Node 24
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
           cache-dependency-path: package-lock.json
-
-      - name: Require committed workspace lockfile
-        run: node scripts/verify-lockfile.mjs
 
       - name: Reproducible dependency installation
         run: npm ci --no-audit
