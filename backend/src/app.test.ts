@@ -24,6 +24,7 @@ describe('migration foundation security gate', () => {
         method: 'POST',
         url: '/api/auth/login',
         payload: { email: 'someone@example.test', password: 'not-a-real-password' },
+        headers: { origin: 'http://localhost:3000' },
       });
       expect(response.statusCode).toBe(503);
     } finally {

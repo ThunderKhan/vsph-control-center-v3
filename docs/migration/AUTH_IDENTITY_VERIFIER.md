@@ -11,7 +11,9 @@ This change ports:
 - Provider outage and error mapping that fails closed, without revealing sensitive login details.
 - Isolated unit tests using fake provider responses; no live auth or user accounts.
 
-**Not yet implemented:** HTTP Fastify integration, rate limits, cookies and database-backed portal sessions, temporary employee credentials, Prisma models, MFA-factor enrollment, application product contexts, login page preauthorization and real Supabase staging acceptance. `backend/src/app.ts` remains a 503 fail-closed scaffold. This change intentionally cannot sign a person into Control Center.
+**Ported but not activated:** Original opaque session-token hashing/cookie attribute utilities, origin validation, bounded single-process login throttling and basic security response headers. Fastify login still returns 503.
+
+**Not yet implemented:** actual cookie issuance, database-backed portal sessions, temporary employee credentials, Prisma models, MFA-factor enrollment, application product contexts, login page preauthorization and real Supabase staging acceptance. A Next.js-compatible nonce-based CSP also remains an explicit deployment gate. `backend/src/app.ts` remains a 503 fail-closed scaffold. This change intentionally cannot sign a person into Control Center.
 
 Before wiring the authenticator into login, make database access safe through a reviewed restored staging schema, preserve session hash/cookie behavior and account-disable checks, verify CSRF origin, rate limits, tenant authorization and temporary-password redemption. Do not turn a successfully verified password into an active session without these checks.
 
