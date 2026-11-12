@@ -26,3 +26,11 @@ The repository remains public; no credentials or production data were touched. D
 - These functions use injection rather than querying a database, so the business rules can be tested with synthetic inputs without modifying Supabase.
 
 Pending: authoritative Prisma store implementations with complete matching schema/SQL row-level protections, session create/delete/revocation, real account/cookie integration, and all privileged role combinations in staging.
+
+## Local origin and dev API routing
+
+Next.js in `frontend/` forwards `/api/*` to the Fastify dev server on `127.0.0.1:4000` in **development only**. Caddy will own this path in production. For browser writes, `PUBLIC_ORIGIN` must exactly equal the browser origin (`http://localhost:3000` by default; if testing `127.0.0.1:3000`, change it accordingly).
+
+The backend's `backend/.env.example` contains safe names and non-secret local defaults; `backend/.env` must stay ignored. Do not use the production Supabase credentials for local parity tests.
+
+The app still responds 503 on allowed-origin login until the real, revocable portal session store is ported. An HTTP rewrite does not activate authentication.
