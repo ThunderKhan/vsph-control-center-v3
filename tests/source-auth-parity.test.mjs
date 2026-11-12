@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { URL } from 'node:url';
 
 const root = new URL('../', import.meta.url);
 const load = async (path) => readFile(new URL(path, root), 'utf8');
