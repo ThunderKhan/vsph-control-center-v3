@@ -1,0 +1,33 @@
+{
+  "name": "vsph-control-center-v3",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "frontend",
+    "backend",
+    "workers"
+  ],
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "scripts": {
+    "dev:web": "npm run dev --workspace @vsph/control-center-web",
+    "dev:api": "npm run dev --workspace @vsph/control-center-api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.0.0",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4"
+  }
+}

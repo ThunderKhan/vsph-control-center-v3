@@ -1,0 +1,26 @@
+{
+  "name": "@vsph/control-center-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "@tanstack/react-query": "^5.90.0",
+    "react-hook-form": "^7.66.0",
+    "zod": "^4.1.12",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@tailwindcss/postcss": "^4.1.17",
+    "tailwindcss": "^4.1.17"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@vsph/control-center-api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:inspect:plan": "node -e \"console.error('Do not introspect until isolated staging DB is approved. See docs/database/PRISMA.md'); process.exit(1)\""
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.0",
+    "@prisma/client": "7.10.0",
+    "fastify": "^5.6.2",
+    "pg": "^8.16.3",
+    "zod": "^4.1.12",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.15.5",
+    "prisma": "7.10.0",
+    "tsx": "^4.20.6",
+    "vitest": "^4.0.8"
+  }
+}

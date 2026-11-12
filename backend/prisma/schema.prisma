@@ -1,0 +1,11 @@
+// Placeholder generator only. DO NOT invent new database models or deploy
+// Prisma migrations. Introspect a verified isolated staging restore first.
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}

@@ -1,0 +1,5 @@
+/*
+ * Do not apply Tailwind preflight or introduce a new design system reset
+ * until audited against the frozen legacy CSS and screenshots.
+ * The v3 frontend has no migrated product pages yet.
+ */
