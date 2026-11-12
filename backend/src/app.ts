@@ -1,9 +1,12 @@
 import Fastify from 'fastify';
+import { installHttpSecurity } from './http-security.js';
 
 export function buildApp() {
   const app = Fastify({
     logger: { redact: ['req.headers.authorization', 'req.headers.cookie', 'res.headers.set-cookie'] },
   });
+
+  installHttpSecurity(app);
 
   // Old API shape is retained where possible. Always fail closed until
   // real database connectivity, migration history and auth are verified.

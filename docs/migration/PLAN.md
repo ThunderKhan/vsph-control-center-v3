@@ -6,7 +6,7 @@
 - Capture original UI in isolated role-specific fixtures with fixed screenshots.
 - Create and prioritize route-by-route traceability and test baselines.
 
-## Phase 1 — foundations (scaffold in this PR)
+## Phase 1 — foundations (scaffold merged; executable validation pending)
 - Separate `frontend/`, `backend/`, `docs/`, `shared/`, `workers/`.
 - Next.js + TypeScript frontend and Fastify + TypeScript backend.
 - Prisma 7 configuration only; **no invented schema or production database access**.
@@ -14,7 +14,8 @@
 - Ensure health/login fail closed (no false-ready endpoints).
 
 ## Phase 2 — authentication and shell
-- Recover original font/assets and markup; port login and navigation exactly.
+- Original Inter font, reference login screenshots, CSS and login React UI port are committed (PRs #5–#6). Rendering parity, original top navigation and full login authentication remain pending.
+- Identity/MFA verification, opaque token policy, portal-session resolver, product-context policy, and basic HTTP protection are in draft PR #7; not wired to live sessions.
 - Preserve Supabase Auth, portal sessions, app sessions, role/tenant enforcement, revocation and SSO.
 - Approve screenshots and role/tenant negative tests before advancing.
 
@@ -42,7 +43,7 @@ Each PR: source-commit traceability, contract tests, screenshots and no unapprov
 ## Unresolved before release
 - Private repository visibility (currently public)
 - Reproducible npm lockfile and dependency checks
-- Asset migration and reference screenshot collection
+- Controlled source-vs-target screenshot comparisons for all pages and states (original login assets archived)
 - Approved isolated staging/restored database for Prisma introspection
 - One owner for SQL migration history; no competing Prisma Migrate changes to same tables
 - Hostinger VPS credentials/provisioning and official production approval

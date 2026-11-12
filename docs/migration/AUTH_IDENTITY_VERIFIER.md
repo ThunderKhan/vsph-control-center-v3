@@ -1,0 +1,36 @@
+# Supabase identity-verifier port (source-only, not wired to HTTP)
+
+Frozen source: `services/verify-identity.js` at `3b3a1535873aa0517aea41da32a407f3d9680547`.
+
+This change ports:
+- Credential normalization, validation lengths (email <=254, password <=4096), UUID factor identifiers, TOTP format and error codes.
+- Per-attempt isolated Supabase Auth clients (no shared in-memory login).
+- Password verification and immediate confirmation of the authenticated user.
+- MFA assurance-level check, verified TOTP factor filtering, challenge/verify and post-MFA identity proof.
+- Local-only provider sign-out on every successful provider session, including failed MFA flows. Other sessions are not globally revoked.
+- Provider outage and error mapping that fails closed, without revealing sensitive login details.
+- Isolated unit tests using fake provider responses; no live auth or user accounts.
+
+**Ported but not activated:** Original opaque session-token hashing/cookie attribute utilities, origin validation, bounded single-process login throttling and basic security response headers. Fastify login still returns 503.
+
+**Not yet implemented:** actual cookie issuance, database-backed portal sessions, temporary employee credentials, Prisma models, MFA-factor enrollment, application product contexts, login page preauthorization and real Supabase staging acceptance. A Next.js-compatible nonce-based CSP also remains an explicit deployment gate. `backend/src/app.ts` remains a 503 fail-closed scaffold. This change intentionally cannot sign a person into Control Center.
+
+Before wiring the authenticator into login, make database access safe through a reviewed restored staging schema, preserve session hash/cookie behavior and account-disable checks, verify CSRF origin, rate limits, tenant authorization and temporary-password redemption. Do not turn a successfully verified password into an active session without these checks.
+
+The repository remains public; no credentials or production data were touched. Dependencies cannot currently be installed in this environment; the added TypeScript tests must be run before this module is accepted.
+
+## Additional authorization logic (source-only)
+
+- `portal-session.ts` and tests preserve the original hashed cookie lookup, expiry, same-user profile join, active account gate and 401 denial messages. Store adapter is deliberately not implemented against production.
+- `entitlements.ts` and tests preserve the original conjunctive product access policy: active organization + subscription + grant + membership + app role, with current time-window checks. Platform ownership is never implicit customer/product access.
+- These functions use injection rather than querying a database, so the business rules can be tested with synthetic inputs without modifying Supabase.
+
+Pending: authoritative Prisma store implementations with complete matching schema/SQL row-level protections, session create/delete/revocation, real account/cookie integration, and all privileged role combinations in staging.
+
+## Local origin and dev API routing
+
+Next.js in `frontend/` forwards `/api/*` to the Fastify dev server on `127.0.0.1:4000` in **development only**. Caddy will own this path in production. For browser writes, `PUBLIC_ORIGIN` must exactly equal the browser origin (`http://localhost:3000` by default; if testing `127.0.0.1:3000`, change it accordingly).
+
+The backend's `backend/.env.example` contains safe names and non-secret local defaults; `backend/.env` must stay ignored. Do not use the production Supabase credentials for local parity tests.
+
+The app still responds 503 on allowed-origin login until the real, revocable portal session store is ported. An HTTP rewrite does not activate authentication.

@@ -12,4 +12,4 @@
 - [ ] Backup and independent restore verified, production owner approves release
 - [ ] Staging deployment and independent cutover/rollback rehearsed
 
-**Current status:** Next.js login UI source port and byte-identical original assets exist. CI, browser, Docker, live authentication, and hosted acceptance remain unverified. No production database or DNS mutation.
+**Current status:** Login UI and exact original assets are merged. Draft PR #7 includes authentication/session/entitlement business rules and HTTP security hooks, with synthetic tests written but not run. CI, browser, Docker, real session issuance, staging Auth and hosted acceptance remain unverified. No production database or DNS mutation.
