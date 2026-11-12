@@ -43,3 +43,7 @@ The v3 frontend has a source-level login port but no migrated authenticated dash
 **Do not run `prisma migrate dev`, `prisma db push`, `prisma migrate deploy`, or production `prisma db pull` against the existing Supabase instance.** Introspection must first be performed against an approved, restored, read-only staging replica, and schema/migration ownership agreed with the source SQL migration manifest.
 
 The original project is unchanged. Nothing in this repository performs hosted writes, creates users, sends email, or provisions infrastructure.
+
+## Authentication migration safety
+
+The original login UI is present; Fastify contains ported identity/session policy and test-only injectable portal login and `/api/auth/me` HTTP contracts. The real server deliberately uses **no database adapter** and continues returning 503 for both. See `docs/migration/PORTAL_LOGIN_ORCHESTRATION.md`. Do not connect production Supabase credentials or enable partial auth as a workaround.

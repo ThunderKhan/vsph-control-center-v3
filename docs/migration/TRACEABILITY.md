@@ -6,7 +6,7 @@ No entry is accepted or done until source, new path, original screenshot(s), con
 | --- | --- | --- |
 | `views/auth.html`, `public/auth*.js`, `public/auth.css`, `public/crm-auth.css` | `frontend/src/app/login/`, `frontend/src/app/apps/[app]/login/`, `frontend/src/features/auth/` | React UI source port merged; exact font/screenshots copied; **not accepted** (rendered visual parity, live server auth pending) |
 | `public/portal-navigation.*`, `public/dashboard.*` | `frontend/src/components/`, `frontend/src/app/dashboard/` | Not ported |
-| `routes/auth.js`, `security.js`, `services/verify-identity.js`, `access-policy.js`, `tokens.js`, `http-security.js` | `backend/src/modules/auth/`, `backend/src/http-security.ts` | Identity/MFA verification, session resolution, token utilities, product entitlements and security hooks merged in PR #7; live sessions and routes **not ported**, login 503 |
+| `routes/auth.js`, `security.js`, `services/verify-identity.js`, `access-policy.js`, `tokens.js`, `http-security.js` | `backend/src/modules/auth/`, `backend/src/http-security.ts` | Identity/MFA verification, session resolution, token utilities, product entitlements and security hooks merged in PR #7. Opt-in portal sign-in and /api/auth/me HTTP contracts added in draft PR #10 with fake-store tests. Live DB adapters, temporary credentials, logout, app SSO and role revocation **not wired**, default login 503 |
 | `routes/employees.js`, `services/employee-*.js` | `backend/src/modules/employees/` and frontend employees | Not ported |
 | `routes/hrms.js`, `routes/calendar.js` | `backend/src/modules/hrms/` and frontend HRMS | Not ported |
 | `routes/projects.js`, `routes/delivery.js` | `backend/src/modules/projects/` and frontend projects | Not ported |

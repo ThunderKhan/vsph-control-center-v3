@@ -12,4 +12,4 @@
 - [ ] Backup and independent restore verified, production owner approves release
 - [ ] Staging deployment and independent cutover/rollback rehearsed
 
-**Current status:** Login UI and exact original assets are merged. Merged PR #7 includes authentication/session/entitlement business rules and HTTP security hooks, with synthetic tests written but not run. PR #8 added manual Node 24 build verification, but no npm lockfile/build pass yet. CI, browser, Docker, real session issuance, staging Auth and hosted acceptance remain unverified. No production database or DNS mutation.
+**Current status:** Login UI and exact original assets are merged. Merged PR #7 includes authentication/session/entitlement business rules and HTTP security hooks, with synthetic tests written but not run. PR #8 added manual Node 24 build verification, but no npm lockfile/build pass yet. Draft PR #10 includes optional isolated portal HTTP contracts with fake stores; normal Fastify startup still fails closed. CI, browser, Docker, real session issuance, staging Auth and hosted acceptance remain unverified. No production database or DNS mutation.
