@@ -161,7 +161,6 @@ export function AuthPage({ appCode }: AuthPageProps) {
     }
   }
 
-  const selectedOrganization = organizations.find((item) => item.id === organizationId);
   const description = isApplicationLogin
     ? applicationName
       ? 'Confirm your password to enter ' + applicationName + '.'
@@ -235,14 +234,14 @@ export function AuthPage({ appCode }: AuthPageProps) {
                   onClick={() => setShowPassword((current) => !current)}>
                   <svg data-icon="show" viewBox="0 0 24 24" width="20" height="20"
                     fill="none" stroke="currentColor" strokeWidth="2"
-                    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+                    aria-hidden="true"
                     hidden={showPassword}>
                     <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/>
                     <circle cx="12" cy="12" r="3"/>
                   </svg>
                   <svg data-icon="hide" viewBox="0 0 24 24" width="20" height="20"
                     fill="none" stroke="currentColor" strokeWidth="2"
-                    strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"
+                    aria-hidden="true"
                     hidden={!showPassword}>
                     <path d="M10.6 5.1A10.7 10.7 0 0 1 12 5c6.5 0 10 7 10 7a15.3 15.3 0 0 1-3.2 4.1M6.3 6.3A15.6 15.6 0 0 0 2 12s3.5 7 10 7c1.7 0 3.2-.5 4.4-1.2"/>
                     <path d="m3 3 18 18"/>
