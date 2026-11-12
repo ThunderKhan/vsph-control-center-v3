@@ -20,3 +20,11 @@ Prisma client generator in v7 uses `prisma-client` with an explicit output path.
 References: https://www.prisma.io/docs/orm/v7/prisma-schema/overview/generators and https://www.prisma.io/docs/orm/v7/core-concepts/supported-databases/database-drivers
 
 **No schema introspection or database command has been executed as part of the foundation.**
+
+## Frozen source archive and Prisma CLI safeguards
+
+The exact original `supabase/schema.sql`, 38 SQL migrations, and their checksummed manifest are now preserved under `supabase/` without execution. Source Git blob hashes match the legacy repository. See `LEGACY_SCHEMA_ARCHIVE.md`.
+
+The `backend/prisma.config.ts` CLI configuration rejects a nonempty `DIRECT_URL` unless `STAGING_INSPECTION_APPROVED=true`, `STAGING_RESTORE_VERIFIED=true` and its hostname, database name, read-only role and TLS configuration agree with independent operator-supplied target values. An empty `DIRECT_URL` is valid for offline Prisma code generation. This is a guardrail, **not proof of a safe or actually read-only database**.
+
+Prisma application models and the DB session store are still intentionally absent. No `db pull`, schema migration, networked DB call or hosted SQL execution has been performed.

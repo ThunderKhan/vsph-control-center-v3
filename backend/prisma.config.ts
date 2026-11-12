@@ -1,9 +1,12 @@
 import 'dotenv/config';
 import { defineConfig } from 'prisma/config';
+import { stagingDirectUrl } from '../scripts/staging-target.mjs';
 
-// CLI always requires a separately approved, direct STAGING connection.
-// Runtime pooling will be configured independently with @prisma/adapter-pg.
+// This configuration is intentionally read-only by policy.
+// DO NOT invoke prisma migrate or db push against the legacy target.
+// No URL is allowed unless explicit isolated staging gates are satisfied.
+// Also verify at the SQL/catalog level that this identity cannot write.
 export default defineConfig({
   schema: 'prisma/schema.prisma',
-  datasource: { url: process.env.DIRECT_URL ?? '' },
+  datasource: { url: stagingDirectUrl(process.env) },
 });
