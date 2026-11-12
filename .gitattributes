@@ -1,0 +1,5 @@
+# Binary assets are copied directly from the frozen legacy commit; do not normalize them.
+*.woff2 binary
+*.jpg binary
+*.jpeg binary
+*.png binary

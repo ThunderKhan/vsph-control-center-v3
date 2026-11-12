@@ -13,7 +13,7 @@ Source: original `3b3a1535873aa0517aea41da32a407f3d9680547`.
 ## Known incomplete
 
 1. **No working server-side session gating or Supabase Auth is ported.** The Fastify `/api/auth/login` endpoint still intentionally returns 503, and app context APIs do not exist. Do not deploy these pages to customers, enable live login, or claim working authentication.
-2. **The exact original Inter `.woff2` binary is not yet copied.** An external font substitute is not an acceptable visual-parity signoff. Source: `public/fonts/inter-5a8d3e72.woff2` SHA-1 `5a8d3e72ad7ffb62af3b146e1b1f54ab5813a212`.
+2. **The exact original Inter `.woff2` is now copied** with a matching GitHub blob SHA. Original login screenshots are also archived in `docs/reference/screenshots/`. This closes the source-asset gap, but does not verify pixel-level visual parity.
 3. Original per-page screenshots have not been captured with matching browser, data, DPI and viewport. Structural tests are NOT pixel comparisons.
 4. Next.js routing has not yet implemented the legacy pre-render session redirect for a valid portal cookie. Root `/`, `/dashboard` and `/employee-password` remain unmigrated.
 5. Design override registry currently uses the original unchanged base theme only; product/customer overrides and any server-provided presentation configuration need porting when integrating backend.
@@ -22,7 +22,8 @@ Source: original `3b3a1535873aa0517aea41da32a407f3d9680547`.
 
 ## Before this can be accepted
 
-- Reproduce the exact font and other needed assets.
+- [x] Copy exact original font and baseline screenshot assets (source blob SHAs verified).
+- [ ] Capture a controlled, reproducible set of source-vs-target screenshots.
 - Compare screenshot baselines of original and port for desktop, tablet and mobile.
 - Port and test safe Fastify session, profile, temporary-credential, MFA, origin validation, rate limits, and app-context checks.
 - Run native Playwright tests against an isolated mock backend, then authorized real staging Auth tests.
