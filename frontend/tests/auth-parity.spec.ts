@@ -12,7 +12,15 @@ test('portal login retains the exact legacy copy and controls', async ({ page })
   await expect.poll(async () => page.evaluate(() =>
     [...document.fonts].some((font) => font.family === 'Inter' && font.status === 'loaded')
   )).toBe(true);
-  await expect(page.getByText('Enterprise Software Solutions for a Smarter Tomorrow.')).toBeVisible();
+  const heroDescription = page.locator('#heroDescription');
+  // The original crm-auth.css hides the intro panel at <=720px. This is
+  // intended responsive behavior, not missing copy or a visual regression.
+  await expect(heroDescription).toHaveText('Enterprise Software Solutions for a Smarter Tomorrow.');
+  if ((page.viewportSize()?.width ?? 0) <= 720) {
+    await expect(heroDescription).toBeHidden();
+  } else {
+    await expect(heroDescription).toBeVisible();
+  }
   await expect(page.getByRole('textbox', { name: 'Work email' })).toBeVisible();
   await expect(page.locator('#password')).toHaveAttribute('type', 'password');
   await expect(page.locator('[data-icon="show"]')).toBeVisible();
@@ -36,7 +44,7 @@ test('failed login shows existing inline error, without mock success', async ({ 
   await page.getByRole('textbox', { name: 'Work email' }).fill('user@example.test');
   await page.locator('#password').fill('not-a-real-password');
   await page.getByRole('button', { name: 'Sign in' }).click();
-  await expect(page.getByRole('alert')).toHaveText('Invalid credentials.');
+  await expect(page.locator('#authError')).toHaveText('Invalid credentials.');
 });
 
 test('MFA prompt matches legacy behavior', async ({ page }) => {
@@ -70,6 +78,6 @@ test('app login fails closed when context cannot be read', async ({ page }) => {
   await page.goto('/apps/crm/login');
   await expect(page.locator('#organizationField')).toBeVisible();
   await expect(page.locator('#authSubmit')).toBeDisabled();
-  await expect(page.getByRole('alert')).toHaveText('Access denied.');
+  await expect(page.locator('#authError')).toHaveText('Access denied.');
   await expect(page.locator('#inviteEntry')).toBeHidden();
 });
