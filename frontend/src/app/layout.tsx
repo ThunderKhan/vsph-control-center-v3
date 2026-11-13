@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en">
+      <head><link rel="stylesheet" href="/fonts.css" /></head>
       <body className="auth-page portal-auth">{children}</body>
     </html>
   );

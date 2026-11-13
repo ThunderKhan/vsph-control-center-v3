@@ -3,7 +3,7 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['**/node_modules/**', '**/.next/**', '**/dist/**', '**/generated/**', '**/next-env.d.ts'] },
+  { ignores: ['**/node_modules/**', '**/.next/**', '**/dist/**', '**/generated/**', '**/next-env.d.ts', 'docs/reference/**'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   // Build scripts, source-only Node tests and backend modules need Node globals.

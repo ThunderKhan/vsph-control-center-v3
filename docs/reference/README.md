@@ -12,3 +12,7 @@ All source references below were copied from the original VSPH Control Center co
 The React login uses the **exact original CSS** and original Inter font bytes. Source blob SHA-1 checks are recorded in `tests/source-assets.test.mjs`. The GitHub blob IDs were compared against the original repository during the copy process.
 
 **This is source preservation, not proof of identical rendering.** Screenshots may have been captured in different environments and are not yet reproducible pixel-baselines. Visual comparison in fixed Chromium versions/viewports/data, and authenticated use-case validation, are still required. CSS may not be reset by Tailwind or shadcn defaults.
+
+## Next.js-specific font loading
+
+The frozen `docs/reference/styles/auth.css` keeps its original `@import url('/fonts.css');` line. Next.js Turbopack treats this root-absolute CSS import as a build-time module and fails to resolve it. The actively compiled `frontend/src/app/auth.css` omits **only this first line**. `frontend/src/app/layout.tsx` loads the unchanged public `/fonts.css` as a normal stylesheet link. The original Inter WOFF2 binary and every other CSS declaration remain unchanged. Source-parity tests explicitly constrain this one packaging exception. Rendered pixel parity must still be confirmed.

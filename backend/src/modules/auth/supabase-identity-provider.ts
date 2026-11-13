@@ -24,7 +24,7 @@ export function createSupabaseIdentityProvider(config: {
       detectSessionInUrl: false,
     },
   }).auth;
-  const errorStatus = (error: { status?: number } | null): ProviderError | null =>
+  const errorStatus = (error: { status?: number | undefined } | null): ProviderError | null =>
     error ? { status: error.status } : null;
 
   const getUser = async () => {

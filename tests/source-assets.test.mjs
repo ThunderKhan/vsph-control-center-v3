@@ -25,12 +25,16 @@ test('preserve exact legacy assets (including font and screenshots)', async () =
 });
 
 test('CSS references original bundled Inter font; license retained', async () => {
-  const [css, fonts, license] = await Promise.all([
+  const [css, fonts, license, layout, frozenCss] = await Promise.all([
     readFile(new URL('frontend/src/app/auth.css', root), 'utf8'),
     readFile(new URL('frontend/public/fonts.css', root), 'utf8'),
     readFile(new URL('docs/reference/fonts/INTER-LICENSE.txt', root), 'utf8'),
+    readFile(new URL('frontend/src/app/layout.tsx', root), 'utf8'),
+    readFile(new URL('docs/reference/styles/auth.css', root), 'utf8'),
   ]);
-  assert.match(css, /@import url\('\/fonts\.css'\)/);
+  assert.ok(frozenCss.startsWith("@import url('/fonts.css');"));
+  assert.ok(!css.startsWith("@import url('/fonts.css');"));
+  assert.ok(layout.includes('<link rel="stylesheet" href="/fonts.css" />'));
   assert.match(fonts, /inter-5a8d3e72\.woff2/);
   assert.match(license, /SIL OPEN FONT LICENSE/i);
 });
