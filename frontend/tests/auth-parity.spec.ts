@@ -8,8 +8,12 @@ test('portal login retains the exact legacy copy and controls', async ({ page })
   await expect(page.getByText('Enterprise Software Solutions for a Smarter Tomorrow.')).toBeVisible();
   await expect(page.getByRole('textbox', { name: 'Work email' })).toBeVisible();
   await expect(page.locator('#password')).toHaveAttribute('type', 'password');
+  await expect(page.locator('[data-icon="show"]')).toBeVisible();
+  await expect(page.locator('[data-icon="hide"]')).toBeHidden();
   await page.getByRole('button', { name: 'Show password' }).click();
   await expect(page.locator('#password')).toHaveAttribute('type', 'text');
+  await expect(page.locator('[data-icon="show"]')).toBeHidden();
+  await expect(page.locator('[data-icon="hide"]')).toBeVisible();
   await expect(page.getByRole('link', { name: 'How to activate your account' })).toBeVisible();
 });
 
