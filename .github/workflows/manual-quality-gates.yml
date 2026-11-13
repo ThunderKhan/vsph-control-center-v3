@@ -43,6 +43,9 @@ jobs:
       - name: Reproducible dependency installation
         run: npm ci --no-audit
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+
       - name: Source and asset integrity
         run: npm run test:source-parity
 

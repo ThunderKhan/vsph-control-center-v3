@@ -30,3 +30,7 @@ Source: original `3b3a1535873aa0517aea41da32a407f3d9680547`.
 - Update `docs/migration/TRACEABILITY.md` with actual evidence rather than declaring completion.
 
 The source and production Supabase database remain unchanged.
+
+## Turbopack font compatibility
+
+The Windows Next.js production build failed on the original `@import url('/fonts.css');`. The only active CSS change is removal of that import; the root Next.js layout instead includes `<link rel="stylesheet" href="/fonts.css" />` to load the same original static stylesheet. The exact original CSS remains archived. The behavior must be checked with Chromium and visual-diff tests before sign-off.

@@ -5,6 +5,13 @@ import { test, expect } from '@playwright/test';
 test('portal login retains the exact legacy copy and controls', async ({ page }) => {
   await page.goto('/login');
   await expect(page.getByRole('heading', { name: 'Welcome back' })).toBeVisible();
+  await expect.poll(async () => page.evaluate(() =>
+    [...document.styleSheets].some((sheet) => sheet.href?.endsWith('/fonts.css'))
+  )).toBe(true);
+  await page.evaluate(() => document.fonts.ready);
+  await expect.poll(async () => page.evaluate(() =>
+    [...document.fonts].some((font) => font.family === 'Inter' && font.status === 'loaded')
+  )).toBe(true);
   await expect(page.getByText('Enterprise Software Solutions for a Smarter Tomorrow.')).toBeVisible();
   await expect(page.getByRole('textbox', { name: 'Work email' })).toBeVisible();
   await expect(page.locator('#password')).toHaveAttribute('type', 'password');
