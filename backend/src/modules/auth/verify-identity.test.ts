@@ -146,6 +146,32 @@ describe('Supabase identity verifier parity', () => {
     expect(provider.signOutLocal).toHaveBeenCalledOnce();
   });
 
+  it('rejects a required MFA challenge when session cleanup fails', async () => {
+    const provider = fakeProvider({
+      getAssurance: vi.fn(async () => ({
+        data: { currentLevel: 'aal1', nextLevel: 'aal2' }, error: null,
+      })),
+      listFactors: vi.fn(async () => ({ data: [
+        { id: oneId, name: 'Authenticator', type: 'totp', status: 'verified' },
+      ], error: null })),
+      signOutLocal: vi.fn(async () => ({ data: null, error: { status: 503 } })),
+    });
+    await expect(verifyIdentity(credentials, () => provider))
+      .rejects.toMatchObject({ code: 'AUTH_UNAVAILABLE', status: 503 });
+    expect(provider.signOutLocal).toHaveBeenCalledOnce();
+  });
+
+  it('rejects provider sign-out exceptions after otherwise valid credentials', async () => {
+    const provider = fakeProvider({
+      signOutLocal: vi.fn(async () => {
+        throw new Error('simulated transient provider failure');
+      }),
+    });
+    await expect(verifyIdentity(credentials, () => provider))
+      .rejects.toMatchObject({ code: 'AUTH_UNAVAILABLE', status: 503 });
+    expect(provider.signOutLocal).toHaveBeenCalledOnce();
+  });
+
   it('rejects a provider sign-out error, never leaking an accepted login', async () => {
     const provider = fakeProvider({
       signOutLocal: vi.fn(async () => ({ data: null, error: { status: 503 } })),

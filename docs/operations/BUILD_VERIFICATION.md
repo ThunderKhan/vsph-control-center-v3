@@ -54,3 +54,25 @@ A green source-check is **not proof of UI pixel parity, real Supabase identity, 
 6. Approve Hostinger VPS/Cloudflare deployment and rehearse rollback **only after parity**.
 
 Do not commit `.env`, API keys, customer records, production database dumps, or login screenshots containing real information.
+
+## November 13, 2026 Windows build and audit findings
+
+Windows Node.js 24.14.1: `npm ci` succeeded, all 16 offline source-parity tests passed, and after PR #11's SVG and Supabase optional-status corrections, all four TypeScript workspace checks passed. ESLint then reported 16 errors (two security cleanup throws from `finally`; 14 browser globals from immutable archived scripts). This follow-up preserves the browser archives as lint-excluded reference data and preserves fail-closed session cleanup without throwing inside `finally`.
+
+The developer's `npm audit --omit=dev` reported five advisories: 1 critical (Next.js) and 4 high (Prisma transitive `deepmerge-ts` and `mysql2`). This branch proposes **Next.js 16.4.6** and the aligned **Prisma 7.10.1** package family, as indicated by the audit's patched dependency paths. This is an *update request*, not a verified resolution; regenerate the real lockfile and repeat the audit before acceptance.
+
+On the developer's existing local checkout, from this PR branch:
+
+```powershell
+npm install --package-lock-only
+node scripts/verify-lockfile.mjs
+npm ci
+npm run check
+npm audit --omit=dev
+npm audit
+git status --short
+```
+
+Do not run `npm audit fix --force`; review the actual lockfile/dependency diff and rerun tests before committing. If checks pass, commit and push the root `package-lock.json` to the same PR branch. Do not commit `node_modules`, environment values, or provider tokens.
+
+Next.js 16.4.6 changes the framework from the 16.3 line and requires functional/UI regression verification, including split login, React hydration and app-router routing parity. No browser or production checks were performed as part of this source change.

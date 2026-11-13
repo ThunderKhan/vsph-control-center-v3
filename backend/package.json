@@ -12,8 +12,8 @@
     "db:inspect:plan": "node -e \"console.error('Do not introspect until isolated staging DB is approved. See docs/database/PRISMA.md'); process.exit(1)\""
   },
   "dependencies": {
-    "@prisma/adapter-pg": "7.10.0",
-    "@prisma/client": "7.10.0",
+    "@prisma/adapter-pg": "7.10.1",
+    "@prisma/client": "7.10.1",
     "fastify": "^5.6.2",
     "pg": "^8.16.3",
     "zod": "^4.1.12",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/pg": "^8.15.5",
-    "prisma": "7.10.0",
+    "prisma": "7.10.1",
     "tsx": "^4.20.6",
     "vitest": "^4.0.8"
   }

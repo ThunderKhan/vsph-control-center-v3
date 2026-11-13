@@ -17,8 +17,11 @@ export async function verifyIdentity(
   const credentials = validateCredentials(input);
   let provider: IdentityProvider | undefined;
   let sessionCreated = false;
+  let outcome: { user: ProviderUser; assurance: 'aal1' | 'aal2' } | undefined;
+  let failure: IdentityError | undefined;
   try {
-    provider = providerFactory();
+    outcome = await (async () => {
+      provider = providerFactory();
     const signed = await provider.signIn(credentials.email, credentials.password);
     sessionCreated = Boolean(signed.data?.sessionToken);
     if (signed.error) {
@@ -100,20 +103,25 @@ export async function verifyIdentity(
       ) throw authUnavailable();
       assurance = 'aal2';
     }
-    return { user, assurance };
+      return { user, assurance };
+    })();
   } catch (error: unknown) {
-    if (error instanceof IdentityError) throw error;
-    throw authUnavailable();
-  } finally {
-    // Local sign-out is compulsory even on MFA challenges and identity
-    // mismatches. Never use global sign-out: other user sessions must survive.
-    if (sessionCreated && provider) {
-      try {
-        const result = await provider.signOutLocal();
-        if (result.error) throw authUnavailable();
-      } catch {
-        throw authUnavailable();
-      }
+    failure = error instanceof IdentityError ? error : authUnavailable();
+  }
+
+  // Cleanup occurs AFTER the verification attempt settles, never inside
+  // finally: a failed sign-out still overrides any verified result or MFA
+  // challenge and prevents the caller from issuing a portal session.
+  if (sessionCreated && provider) {
+    try {
+      const signOut = await provider.signOutLocal();
+      if (signOut.error) failure = authUnavailable();
+    } catch {
+      failure = authUnavailable();
     }
   }
+
+  if (failure) throw failure;
+  if (!outcome) throw authUnavailable();
+  return outcome;
 }
